@@ -1,0 +1,74 @@
+/*
+ * Web-only baseline.
+ *
+ * React Native Web handles component styling; this file covers the few things
+ * that live outside the React tree — the document background behind the app,
+ * scrollbar chrome, and text selection — so the web build cannot flash white
+ * or show a light-mode scrollbar against the dark UI.
+ */
+
+:root {
+  color-scheme: dark;
+  --slate-bg: #0e0612;
+  --slate-surface: rgba(38, 16, 48, 0.68);
+  --slate-border: rgba(244, 114, 182, 0.18);
+  --slate-accent: #f43f5e;
+  --slate-text: #fff1f2;
+  --slate-muted: #e5b8c8;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(136, 19, 79, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 85% 82%, rgba(112, 26, 117, 0.25) 0%, transparent 50%),
+    #0e0612;
+  color: var(--slate-text);
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The app owns its own scroll containers; the document must not add a second. */
+body {
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(244, 63, 94, 0.35);
+  color: #fff;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 114, 182, 0.25) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(244, 114, 182, 0.22);
+  border-radius: 999px;
+  border: 2px solid #0e0612;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(251, 113, 133, 0.42);
+}
+
+/* Keyboard focus stays visible; pointer focus does not draw a ring. */
+:focus-visible {
+  outline: 2px solid var(--slate-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}

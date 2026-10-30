@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native projects are generated from app.json by `npm run prebuild`
+# (Continuous Native Generation). The config is the source of truth, not the
+# checked-in Xcode/Gradle output.
+/ios
+/android
+
+# Build artefacts
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Local
+.env*.local
+.tmp/
+.install.log
+npm-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store

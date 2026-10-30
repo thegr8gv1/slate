@@ -1,0 +1,26 @@
+{
+  "name": "slate-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SLATE — dual-sided talent discovery & procurement marketplace for iOS, Android and Web",
+  "scripts": {
+    "sync:contracts": "node scripts/sync-contracts.mjs",
+    "postinstall": "node scripts/sync-contracts.mjs",
+    "install:all": "npm --prefix apps/api install && npm --prefix apps/slate install",
+    "api": "npm --prefix apps/api run dev",
+    "app": "npm --prefix apps/slate run start",
+    "web": "npm --prefix apps/slate run web",
+    "android": "npm --prefix apps/slate run android",
+    "ios": "npm --prefix apps/slate run ios",
+    "seed": "npm --prefix apps/api run seed",
+    "typecheck": "npm --prefix apps/api run typecheck && npm --prefix apps/slate run typecheck",
+    "build:web": "npm --prefix apps/slate run build:web",
+    "build:android": "npm --prefix apps/slate run build:android",
+    "dev": "node scripts/dev.mjs",
+    "test": "npm --prefix apps/api run test",
+    "verify": "npm run sync:contracts && npm run typecheck && npm test && npm run build:web"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

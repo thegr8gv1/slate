@@ -1,0 +1,23 @@
+{
+  "name": "@slate/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SLATE core service mesh — discovery, geo dispatch, escrow ledger, trust & safety",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "seed": "tsx src/db/seed.ts --force",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/domain/domain.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "fastify": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

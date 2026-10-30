@@ -1,0 +1,86 @@
+{
+  "expo": {
+    "name": "Slate",
+    "slug": "slate",
+    "version": "1.0.1",
+    "orientation": "default",
+    "icon": "./assets/images/icon.png",
+    "scheme": "slate",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0E0612",
+    "primaryColor": "#F43F5E",
+    "description": "Swipe-to-cast talent discovery, verified engagement auditing and escrow-backed bookings for productions, brands, agencies and crew.",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.slate.marketplace",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Slate records self-tape auditions in the in-app Casting Room.",
+        "NSMicrophoneUsageDescription": "Slate records audio with your self-tape auditions.",
+        "NSLocationWhenInUseUsageDescription": "Slate uses your location to surface nearby casting calls and Set-Beacon emergency calls within your travel radius.",
+        "NSPhotoLibraryUsageDescription": "Slate lets you attach stills and reels to your portfolio.",
+        "UIUserInterfaceStyle": "Dark"
+      }
+    },
+    "android": {
+      "package": "com.slate.myapp",
+      "versionCode": 2,
+      "userInterfaceStyle": "dark",
+      "predictiveBackGestureEnabled": false,
+      "navigationBar": {
+        "backgroundColor": "#0E0612",
+        "barStyle": "light-content"
+      },
+      "statusBar": {
+        "backgroundColor": "#0E0612",
+        "barStyle": "light-content",
+        "translucent": true
+      },
+      "adaptiveIcon": {
+        "backgroundColor": "#0E0612",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.VIBRATE"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Slate",
+      "shortName": "Slate",
+      "themeColor": "#0E0612",
+      "backgroundColor": "#0E0612",
+      "description": "Talent discovery, verified engagement and escrow-backed bookings."
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0E0612",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 84
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Slate records self-tape auditions in the in-app Casting Room.",
+          "microphonePermission": "Slate records audio with your self-tape auditions.",
+          "recordAudioAndroid": true
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": true
+    }
+  }
+}

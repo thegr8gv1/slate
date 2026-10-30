@@ -1,0 +1,31 @@
+node_modules/
+dist/
+build/
+.expo/
+
+# Local database and its write-ahead log
+apps/api/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Scratch
+.tmp/
+*.log
+.env
+.env.*.local
+
+# Generated native projects — see apps/slate/.gitignore
+/apps/slate/ios
+/apps/slate/android
+
+# Build outputs & binaries
+*.aab
+*.apk
+*.keystore
+
+# Claude / IDE cache
+.claude/
+
+.DS_Store
+Thumbs.db
