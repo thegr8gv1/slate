@@ -531,7 +531,7 @@ export function seed(force = false): { profiles: number; projects: number } {
   });
   insertAccount({
     id: silverlineId,
-    email: 'casting@slate.dev',
+    email: 'vempatigowtham@live.com',
     displayName: 'Ava Mercer · Silverline Pictures',
     role: 'production',
     workspaces: ['production', 'agency'],
@@ -1254,7 +1254,7 @@ You want the drive, you can have it. But you're going to tell me who signed the 
 
   kvSet('seed_version', SEED_VERSION);
   kvSet('demo_accounts', JSON.stringify({
-    production: 'casting@slate.dev',
+    production: 'vempatigowtham@live.com',
     talent: 'talent@slate.dev',
     brand: 'brand@slate.dev',
     agency: 'agency@slate.dev',

@@ -34,7 +34,7 @@ export default function SignIn() {
   const { signIn, account, workspace, ready } = useSession();
   const { compact } = useResponsive();
 
-  const [email, setEmail] = useState('casting@slate.dev');
+  const [email, setEmail] = useState('vempatigowtham@live.com');
   const [password, setPassword] = useState('slate');
 
   const demo = useQuery<DemoAccounts>(() => api.get<DemoAccounts>('/auth/demo-accounts'), []);

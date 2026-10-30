@@ -68,7 +68,7 @@ We only share your information in the following circumstances:
 
 We retain your personal data for as long as your account remains active. You can request deletion of your account and personal data at any time:
 - **In-App:** Navigate to Profile &rarr; Settings &rarr; Privacy & Routing.
-- **Email Request:** Email us at [privacy@slate.dev](mailto:privacy@slate.dev) with the subject line *"Account Deletion Request"*. All profile data, video audition takes, and portfolio photos will be permanently deleted within 30 days.
+- **Email Request:** Email us at [vempatigowtham@live.com](mailto:vempatigowtham@live.com) with the subject line *"Account Deletion Request"*. All profile data, video audition takes, and portfolio photos will be permanently deleted within 30 days.
 
 ---
 
@@ -87,7 +87,7 @@ Slate is intended for individuals aged 18 and older, or minors aged 13–17 who 
 ## 7. Contact Us
 
 If you have questions or concerns regarding this Privacy Policy:
-- **Email:** [privacy@slate.dev](mailto:privacy@slate.dev)
-- **Support:** [support@slate.dev](mailto:support@slate.dev)
+- **Email:** [vempatigowtham@live.com](mailto:vempatigowtham@live.com)
+- **Support:** [vempatigowtham@live.com](mailto:vempatigowtham@live.com)
 - **Application:** Slate (`com.slate.myapp`)
 - **Repository:** [https://github.com/thegr8gv1/slate](https://github.com/thegr8gv1/slate)
