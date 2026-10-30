@@ -11,10 +11,16 @@ import { Platform } from 'react-native';
  */
 
 const DEFAULT_PORT = 4000;
+const PRODUCTION_API_URL = 'https://slate-mger.onrender.com';
 
 function resolveBaseUrl(): string {
   const explicit = process.env.EXPO_PUBLIC_API_URL;
   if (explicit) return explicit.replace(/\/$/, '');
+
+  // In production native builds (__DEV__ is false), use the live cloud API
+  if (!__DEV__) {
+    return PRODUCTION_API_URL;
+  }
 
   // hostUri looks like "192.168.1.130:8081" in dev.
   const hostUri =
