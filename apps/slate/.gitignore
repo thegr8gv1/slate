@@ -14,7 +14,11 @@ expo-env.d.ts
 /android
 
 # Build artefacts
-*.jks
+*.keystore
+*.aab
+*.apk
+.env
+.env*
 *.p8
 *.p12
 *.key
