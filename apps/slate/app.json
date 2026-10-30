@@ -2,14 +2,14 @@
   "expo": {
     "name": "Slate",
     "slug": "slate",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "slate",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#0E0612",
     "primaryColor": "#F43F5E",
-    "description": "Swipe-to-cast talent discovery, verified engagement auditing and escrow-backed bookings for productions, brands, agencies and crew.",
+    "description": "Peer-to-peer neighborhood art and creative collaboration. Discover local short films, jam sessions, backyard theater, and art showups without agencies or gatekeeping.",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.slate.marketplace",

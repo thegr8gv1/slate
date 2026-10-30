@@ -295,6 +295,127 @@ CREATE TABLE IF NOT EXISTS kv (
   key   TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS art_opportunities (
+  id                       TEXT PRIMARY KEY,
+  creator_id               TEXT NOT NULL,
+  creator_name             TEXT NOT NULL,
+  creator_avatar           TEXT NOT NULL,
+  creator_role             TEXT NOT NULL,
+  title                    TEXT NOT NULL,
+  category                 TEXT NOT NULL,
+  category_label           TEXT NOT NULL,
+  activity_type            TEXT NOT NULL,
+  activity_badge           TEXT NOT NULL,
+  address                  TEXT NOT NULL,
+  neighborhood             TEXT NOT NULL,
+  distance_miles           REAL NOT NULL DEFAULT 0.3,
+  walk_minutes             INTEGER NOT NULL DEFAULT 5,
+  time_range               TEXT NOT NULL,
+  date_label               TEXT NOT NULL,
+  spots_total              INTEGER NOT NULL DEFAULT 5,
+  spots_joined             INTEGER NOT NULL DEFAULT 0,
+  no_experience_needed     INTEGER NOT NULL DEFAULT 1,
+  project_story            TEXT NOT NULL,
+  what_you_will_do_json    TEXT NOT NULL,
+  what_you_will_learn_json TEXT NOT NULL,
+  perks_json               TEXT NOT NULL,
+  what_to_bring            TEXT NOT NULL,
+  lat                      REAL NOT NULL,
+  lng                      REAL NOT NULL,
+  created_at               TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_art_opps_cat ON art_opportunities(category, activity_type);
+
+CREATE TABLE IF NOT EXISTS art_collaborations (
+  id             TEXT PRIMARY KEY,
+  opportunity_id TEXT NOT NULL,
+  account_id     TEXT NOT NULL,
+  status         TEXT NOT NULL DEFAULT 'joined',
+  created_at     TEXT NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_art_collab_unique ON art_collaborations(opportunity_id, account_id);
+
+CREATE TABLE IF NOT EXISTS local_gigs (
+  id                   TEXT PRIMARY KEY,
+  poster_id            TEXT NOT NULL,
+  poster_name          TEXT NOT NULL,
+  poster_avatar        TEXT NOT NULL,
+  poster_rating        REAL NOT NULL DEFAULT 5.0,
+  poster_gigs_count    INTEGER NOT NULL DEFAULT 1,
+  title                TEXT NOT NULL,
+  category             TEXT NOT NULL,
+  category_label       TEXT NOT NULL,
+  pay_cents            INTEGER NOT NULL,
+  duration_hours       REAL NOT NULL,
+  address              TEXT NOT NULL,
+  neighborhood         TEXT NOT NULL,
+  distance_miles       REAL NOT NULL DEFAULT 0.3,
+  walk_minutes         INTEGER NOT NULL DEFAULT 6,
+  starts_at            TEXT NOT NULL,
+  time_range           TEXT NOT NULL,
+  spots_total          INTEGER NOT NULL DEFAULT 5,
+  spots_filled         INTEGER NOT NULL DEFAULT 0,
+  no_experience_needed INTEGER NOT NULL DEFAULT 1,
+  urgent               INTEGER NOT NULL DEFAULT 0,
+  description          TEXT NOT NULL,
+  tasks_json           TEXT NOT NULL,
+  what_to_wear         TEXT NOT NULL,
+  lat                  REAL NOT NULL,
+  lng                  REAL NOT NULL,
+  created_at           TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_gigs_cat ON local_gigs(category, urgent);
+
+CREATE TABLE IF NOT EXISTS gig_applications (
+  id         TEXT PRIMARY KEY,
+  gig_id     TEXT NOT NULL,
+  account_id TEXT NOT NULL,
+  status     TEXT NOT NULL DEFAULT 'confirmed',
+  created_at TEXT NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_gig_app_unique ON gig_applications(gig_id, account_id);
+
+CREATE TABLE IF NOT EXISTS wallet_items (
+  id           TEXT PRIMARY KEY,
+  account_id   TEXT NOT NULL,
+  title        TEXT NOT NULL,
+  category     TEXT NOT NULL,
+  amount_cents INTEGER NOT NULL,
+  date_str     TEXT NOT NULL,
+  type         TEXT NOT NULL,
+  status       TEXT NOT NULL,
+  note         TEXT,
+  created_at   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_wallet_account ON wallet_items(account_id);
+
+CREATE TABLE IF NOT EXISTS peer_chats (
+  id                 TEXT PRIMARY KEY,
+  account_id         TEXT NOT NULL,
+  peer_id            TEXT NOT NULL,
+  peer_name          TEXT NOT NULL,
+  peer_avatar        TEXT NOT NULL,
+  peer_role          TEXT NOT NULL,
+  last_message       TEXT NOT NULL,
+  last_message_time  TEXT NOT NULL,
+  unread_count       INTEGER NOT NULL DEFAULT 0,
+  is_advice_call     INTEGER NOT NULL DEFAULT 0,
+  advice_topic       TEXT,
+  advice_price_cents INTEGER,
+  created_at         TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS chat_messages (
+  id          TEXT PRIMARY KEY,
+  chat_id     TEXT NOT NULL,
+  sender_id   TEXT NOT NULL,
+  sender_name TEXT NOT NULL,
+  text        TEXT NOT NULL,
+  timestamp   TEXT NOT NULL,
+  created_at  TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_chat_msg ON chat_messages(chat_id, created_at);
 `;
 
 function migrate(handle: DatabaseSync): void {

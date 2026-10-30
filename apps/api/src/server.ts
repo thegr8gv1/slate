@@ -7,12 +7,17 @@ import { seed } from './db/seed.js';
 import { expireStaleBeacons } from './domain/beacon.js';
 import { auditAllProfiles } from './domain/trust.js';
 import { sendError } from './lib/http.js';
+import { artRoutes } from './routes/art.js';
 import { authRoutes } from './routes/auth.js';
 import { brandRoutes } from './routes/brand.js';
+import { chatRoutes } from './routes/chats.js';
 import { discoveryRoutes } from './routes/discovery.js';
+import { gigRoutes } from './routes/gigs.js';
 import { moneyRoutes } from './routes/money.js';
+import { profileRoutes } from './routes/profile.js';
 import { projectRoutes } from './routes/projects.js';
 import { talentRoutes } from './routes/talent.js';
+import { walletRoutes } from './routes/wallet.js';
 import { workspaceRoutes } from './routes/workspace.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
@@ -62,6 +67,11 @@ export async function buildServer() {
   });
 
   await app.register(authRoutes);
+  await app.register(artRoutes);
+  await app.register(gigRoutes);
+  await app.register(walletRoutes);
+  await app.register(chatRoutes);
+  await app.register(profileRoutes);
   await app.register(discoveryRoutes);
   await app.register(projectRoutes);
   await app.register(moneyRoutes);

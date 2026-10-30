@@ -180,16 +180,7 @@ export function useSession(): SessionValue {
   return value;
 }
 
-/** Landing route for a workspace — used after sign-in and on workspace switch. */
-export function homeRouteFor(workspace: Workspace): string {
-  switch (workspace) {
-    case 'production':
-      return '/production';
-    case 'brand':
-      return '/brand';
-    case 'agency':
-      return '/agency';
-    default:
-      return '/talent';
-  }
+/** Landing route for any collaborator — directs straight to the Neighborhood Art Map. */
+export function homeRouteFor(_workspace?: Workspace): string {
+  return '/map';
 }

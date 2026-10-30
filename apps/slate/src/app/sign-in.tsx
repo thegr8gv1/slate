@@ -22,11 +22,11 @@ interface DemoAccounts {
 }
 
 const ROLE_COPY: { key: keyof DemoAccounts; label: string; blurb: string; icon: 'film' | 'user' | 'sparkle' | 'briefcase' | 'camera' }[] = [
-  { key: 'production', label: 'Production', blurb: 'Find actors, send urgent crew alerts, and fund job payments', icon: 'film' },
-  { key: 'talent', label: 'Talent', blurb: 'Browse jobs, record video auditions, and keep your profile private', icon: 'user' },
-  { key: 'brand', label: 'Brand', blurb: 'Check creator follower quality, launch campaigns, and track results', icon: 'sparkle' },
-  { key: 'agency', label: 'Agency', blurb: 'Manage client roster, contracts, and payouts', icon: 'briefcase' },
-  { key: 'crew', label: 'Crew', blurb: 'Find urgent set calls and rent out production gear', icon: 'camera' },
+  { key: 'production', label: 'Local Artist & Beginner', blurb: 'Explore movie sets, acoustic jams, and backyard theater', icon: 'user' },
+  { key: 'talent', label: 'Indie Filmmaker', blurb: 'Invite neighbors to shadow cameras, hold boom mics, and act as extras', icon: 'film' },
+  { key: 'brand', label: 'Art & Gallery Host', blurb: 'Invite local enthusiasts to mingle, take reels, and pack events', icon: 'sparkle' },
+  { key: 'agency', label: 'Community Theater', blurb: 'Cast local plays and organize backstage volunteers', icon: 'briefcase' },
+  { key: 'crew', label: 'Music & Jam Circle', blurb: 'Host group jams, beat collaborations, and lyric circles', icon: 'camera' },
 ];
 
 export default function SignIn() {
@@ -109,7 +109,7 @@ export default function SignIn() {
                 </Text>
               </Row>
               <Text variant="body" tone="muted" align="center">
-                Find talent, audition online, and book jobs with safe, protected payments.
+                Make art together: movie sets, acoustic jams, theater, and creative community — peer-to-peer and beginner friendly.
               </Text>
             </Stack>
 

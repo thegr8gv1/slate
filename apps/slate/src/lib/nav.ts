@@ -17,38 +17,18 @@ export interface NavItem {
  * sheet — three presentations of one structure, which is why a destination can
  * never exist on one platform and not another.
  */
+const CORE_ART_NAV: NavItem[] = [
+  { href: '/map', label: 'Art Map', icon: 'compass', primary: true, description: 'Explore neighborhood cinema, music, stage & art' },
+  { href: '/my-circles', label: 'My Circles', icon: 'heart', primary: true, description: 'Creative collaborations you have joined' },
+  { href: '/skill-share', label: 'Skill-Share', icon: 'inbox', primary: true, description: 'Peer chats and ask-a-creator mentorship' },
+  { href: '/profile', label: 'Who I Am', icon: 'user', primary: true, description: 'Your Ready to Learn & Help Out profile' },
+];
+
 export const NAV: Record<Workspace, NavItem[]> = {
-  talent: [
-    { href: '/talent', label: 'Home', icon: 'home', primary: true, description: 'Your profile, jobs, and casting calls' },
-    { href: '/talent/discover', label: 'Gigs', icon: 'compass', primary: true, description: 'Browse and apply for open roles' },
-    { href: '/talent/inbox', label: 'Inbox', icon: 'inbox', primary: true, description: 'Direct messages and job offers' },
-    { href: '/talent/beacons', label: 'Beacons', icon: 'zap', primary: true, description: 'Urgent same-day job alerts' },
-    { href: '/talent/casting', label: 'Casting Room', icon: 'video', primary: true, description: 'Record video auditions with prompter' },
-    { href: '/talent/privacy', label: 'Privacy & Routing', icon: 'lock', description: 'Private profile & agency settings' },
-    { href: '/talent/portfolio', label: 'Portfolio', icon: 'grid', description: 'Photos, video reels, and credits' },
-  ],
-  production: [
-    { href: '/production', label: 'Discover', icon: 'compass', primary: true, description: 'Browse and cast talent' },
-    { href: '/production/matches', label: 'Matches', icon: 'heart', primary: true, description: 'People interested in your jobs' },
-    { href: '/production/board', label: 'Board', icon: 'briefcase', primary: true, description: 'Shortlist, offers, and safe payments' },
-    { href: '/production/beacon', label: 'Set-Beacon', icon: 'zap', primary: true, description: 'Instant urgent crew replacement' },
-    { href: '/production/marketplace', label: 'Crew', icon: 'users', primary: true, description: 'Find crew and rent gear' },
-    { href: '/production/collab', label: 'Dailies', icon: 'film', description: 'Review daily video footage' },
-    { href: '/production/events', label: 'Live Events', icon: 'pin', description: 'Book events and appearances' },
-  ],
-  brand: [
-    { href: '/brand', label: 'Audit', icon: 'shield', primary: true, description: 'Check real vs. fake followers' },
-    { href: '/brand/campaigns', label: 'Campaigns', icon: 'sparkle', primary: true, description: 'Create and run creator campaigns' },
-    { href: '/brand/analytics', label: 'Analytics', icon: 'chart', primary: true, description: 'Campaign results and estimated reach' },
-    { href: '/production', label: 'Discover', icon: 'compass', primary: true, description: 'Browse and find creators' },
-  ],
-  agency: [
-    { href: '/agency', label: 'Dashboard', icon: 'grid', primary: true, description: 'Client income and active jobs' },
-    { href: '/agency/vault', label: 'Contracts', icon: 'file', primary: true, description: 'Signed agreements and NDAs' },
-    { href: '/agency/escrow', label: 'Escrow', icon: 'dollar', primary: true, description: 'Held payments and client payouts' },
-    { href: '/agency/roster', label: 'Roster', icon: 'users', primary: true, description: 'Your signed client list' },
-    { href: '/agency/ledger', label: 'Ledger', icon: 'list', description: 'Complete payment records' },
-  ],
+  talent: CORE_ART_NAV,
+  production: CORE_ART_NAV,
+  brand: CORE_ART_NAV,
+  agency: CORE_ART_NAV,
 };
 
 export const WORKSPACE_LABELS: Record<Workspace, string> = {

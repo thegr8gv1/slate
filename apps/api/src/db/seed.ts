@@ -9,6 +9,7 @@
  *   npm run seed          # rebuild from scratch
  */
 
+import type { DatabaseSync } from 'node:sqlite';
 import { closeDb, db, run, kvSet, kvGet } from './index.js';
 import { SECTOR_CATALOG, SECTORS } from '../contracts/index.js';
 import type {
@@ -1262,8 +1263,717 @@ You want the drive, you can have it. But you're going to tell me who signed the 
     password: 'slate',
   }));
 
+  seedLocalGigsAndCommunity(handle, silverlineId);
+  seedArtCollaborations(handle, silverlineId);
+
   const count = handle.prepare('SELECT COUNT(*) AS n FROM talent_profiles').get() as { n: number };
   return { profiles: count.n, projects: 3 };
+}
+
+function seedArtCollaborations(handle: DatabaseSync, mainAccountId: string): void {
+  handle.exec('DELETE FROM art_opportunities');
+  handle.exec('DELETE FROM art_collaborations');
+
+  const opportunities = [
+    {
+      id: 'art_cam_01',
+      creator_id: 'acc_creator_leo',
+      creator_name: 'Leo Alvarez',
+      creator_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Indie Film Director',
+      title: 'Shadow Our Camera Operator on an Indie Short Film',
+      category: 'film_video',
+      category_label: 'Movies, Video & Short Films',
+      activity_type: 'learning_shadow',
+      activity_badge: 'Shadow & Learn 🎥',
+      address: '1520 Sunset Blvd (Diner Set)',
+      neighborhood: 'Silver Lake',
+      distance_miles: 0.2,
+      walk_minutes: 4,
+      time_range: '2:00 PM – 5:00 PM',
+      date_label: 'Today',
+      spots_total: 2,
+      spots_joined: 1,
+      no_experience_needed: 1,
+      project_story: 'We are shooting a 10-minute comedy short about two strangers bonding over mismatched coffee orders. Our DP is excited to explain camera lenses, gimbal balance, and blocking to anyone curious about cinematography!',
+      what_you_will_do_json: JSON.stringify([
+        'Stand alongside camera operator during rehearsal takes',
+        'Help hold the reflector board to bounce gentle light on actors',
+        'Ask questions between takes about lighting, angles, and camera settings',
+        'Enjoy free iced coffee, diner snacks, and set camaraderie',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How camera lenses (35mm vs 50mm) change the mood of a scene',
+        'How to balance and operate a handheld camera gimbal',
+        'Basic set etiquette and director-to-crew communication',
+      ]),
+      perks_json: JSON.stringify(['Screen Credit: Camera Assistant', 'Free Lunch & Crafty', 'Signed Call Sheet', 'New Creative Friends']),
+      what_to_bring: 'Wear comfortable sneakers and dark t-shirt. Bring a small notebook or your phone to jot down tips!',
+      lat: 34.0782,
+      lng: -118.2606,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_extra_02',
+      creator_id: 'acc_creator_maya',
+      creator_name: 'Maya Lin',
+      creator_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Student Filmmaker',
+      title: 'Background Diner Customers for Short Drama (Zero Experience)',
+      category: 'film_video',
+      category_label: 'Movies, Video & Short Films',
+      activity_type: 'collaboration',
+      activity_badge: 'Fun Extra ✨',
+      address: '1822 W Sunset Blvd (Echo Diner)',
+      neighborhood: 'Echo Park',
+      distance_miles: 0.3,
+      walk_minutes: 6,
+      time_range: '3:30 PM – 6:00 PM',
+      date_label: 'Today',
+      spots_total: 6,
+      spots_joined: 4,
+      no_experience_needed: 1,
+      project_story: 'A cozy neighborhood story exploring human connection. We need friendly everyday locals to sit at booths in the background so the diner feels warm, lived-in, and authentic.',
+      what_you_will_do_json: JSON.stringify([
+        'Sit comfortably at a vintage diner booth with another local',
+        'Pretend to chat naturally and sip coffee while lead actors play their scene',
+        'No lines to memorize, no pressure — just be yourself!',
+        'Free hot coffee, diner pie, and snacks provided',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'What being on an indie movie set actually feels like',
+        'How multiple camera angles are matched across takes',
+        'How background performers bring scenes to life',
+      ]),
+      perks_json: JSON.stringify(['Screen Credit: Background Cast', 'Complimentary Pie & Coffee', 'Fun Photo on Set', 'Great Weekend Story']),
+      what_to_bring: 'Casual everyday clothes with warm colors. Avoid neon or large brand logos.',
+      lat: 34.0772,
+      lng: -118.2580,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_mic_03',
+      creator_id: 'acc_creator_sam',
+      creator_name: 'Sammy Klein',
+      creator_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Indie Sound Designer',
+      title: 'Hold Boom Mic & Learn Field Audio Recording',
+      category: 'film_video',
+      category_label: 'Movies, Video & Short Films',
+      activity_type: 'learning_shadow',
+      activity_badge: 'Audio Workshop 🎙️',
+      address: 'Echo Park Lake (Boathouse Walk)',
+      neighborhood: 'Echo Park',
+      distance_miles: 0.3,
+      walk_minutes: 6,
+      time_range: '10:00 AM – 1:00 PM',
+      date_label: 'Tomorrow',
+      spots_total: 2,
+      spots_joined: 0,
+      no_experience_needed: 1,
+      project_story: 'Filming an intimate dialogue on the park benches. Good sound is 70% of a movie! Sammy will walk you through microphone shock-mounts, deadcat wind protection, and monitoring clean dialogue.',
+      what_you_will_do_json: JSON.stringify([
+        'Learn how to hold a carbon fiber boom pole without making handling noise',
+        'Listen to live dialogue on professional studio headphones',
+        'Help record ambient park room tone and bird sounds for sound design',
+        'Super chill morning outdoors by the water',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How directional shotgun microphones work',
+        'How to keep the mic just outside the camera frame line',
+        'How audio gain staging prevents dialogue distortion',
+      ]),
+      perks_json: JSON.stringify(['Screen Credit: Boom Operator Assistant', 'Free Iced Matcha', 'Audio Gear Practice']),
+      what_to_bring: 'Comfortable shoes for standing and lightweight layers.',
+      lat: 34.0725,
+      lng: -118.2605,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_jam_04',
+      creator_id: 'acc_creator_elena',
+      creator_name: 'Elena Rostova',
+      creator_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Acoustic Songwriter',
+      title: 'Sunday Acoustic Jam & Lyric-Writing Circle in the Park',
+      category: 'music_sound',
+      category_label: 'Music & Sound Collaborations',
+      activity_type: 'jam_session',
+      activity_badge: 'Acoustic Jam 🎸',
+      address: 'Echo Park Lake (Under the Willow Trees)',
+      neighborhood: 'Echo Park',
+      distance_miles: 0.3,
+      walk_minutes: 5,
+      time_range: '1:00 PM – 3:30 PM',
+      date_label: 'Sunday',
+      spots_total: 8,
+      spots_joined: 4,
+      no_experience_needed: 1,
+      project_story: 'A welcoming, zero-intimidation gathering of local music lovers. Whether you play 3 guitar chords, love writing poetry, or just want to shake a tambourine and listen, you belong here!',
+      what_you_will_do_json: JSON.stringify([
+        'Share chord progressions and simple acoustic melodies',
+        'Brainstorm song lyrics and themes in an open circle',
+        'Experiment with shakers, claps, and vocal harmonies',
+        'Connect with other local musicians for future projects',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How to write song verses using sensory imagery',
+        'How to listen and lock into a collaborative acoustic groove',
+        'Building confidence playing with other people',
+      ]),
+      perks_json: JSON.stringify(['Homemade Cookies & Lemonade', 'Collaborative Song Recording', 'Community Songbook']),
+      what_to_bring: 'Bring an acoustic instrument, notebook & pen, or just yourself and an open heart!',
+      lat: 34.0730,
+      lng: -118.2610,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_beat_05',
+      creator_id: 'acc_creator_kai',
+      creator_name: 'Kai Chen',
+      creator_avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Electronic Music Producer',
+      title: 'Lo-Fi Beat Collaboration & Synth Jam Session',
+      category: 'music_sound',
+      category_label: 'Music & Sound Collaborations',
+      activity_type: 'collaboration',
+      activity_badge: 'Beat Lab 🎧',
+      address: '2105 Glendale Blvd (Studio Living Room)',
+      neighborhood: 'Silver Lake',
+      distance_miles: 0.4,
+      walk_minutes: 7,
+      time_range: '4:00 PM – 6:30 PM',
+      date_label: 'Saturday',
+      spots_total: 4,
+      spots_joined: 2,
+      no_experience_needed: 1,
+      project_story: 'Making tape-saturated chill beats on an old Roland sampler. Bring your laptop, pocket operator, or a playlist of your favorite vinyl samples. Let’s make two tracks before sunset!',
+      what_you_will_do_json: JSON.stringify([
+        'Chop vintage soul vinyl samples into melodic loops',
+        'Program dusty boom-bap drum patterns and sidechain basslines',
+        'Tweak analog synthesizer knobs to create warm pads',
+        'Export and share the finished collaborative EP with everyone',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'Sample chopping and time-stretching techniques',
+        'EQ and tape compression for vintage lo-fi warmth',
+        'Arranging 16-bar beat progressions with transitions',
+      ]),
+      perks_json: JSON.stringify(['Mastered WAV files of both tracks', 'Sample pack library swap', 'Fresh hot tea & snacks']),
+      what_to_bring: 'Headphones and a flash drive. Laptop or mini-keyboard welcome but not required.',
+      lat: 34.0845,
+      lng: -118.2612,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_theater_06',
+      creator_id: 'acc_creator_chloe',
+      creator_name: 'Chloe Vance & The Backyard Players',
+      creator_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Community Theater Director',
+      title: 'Pack the Audience for DIY Backyard Theater Opening',
+      category: 'stage_theater',
+      category_label: 'Stage, Theater & Performance',
+      activity_type: 'crowd_support',
+      activity_badge: 'Pack the Crowd 🎭',
+      address: '714 S Santa Fe Ave (Courtyard)',
+      neighborhood: 'Arts District',
+      distance_miles: 0.5,
+      walk_minutes: 10,
+      time_range: '7:00 PM – 9:00 PM',
+      date_label: 'Friday Night',
+      spots_total: 25,
+      spots_joined: 16,
+      no_experience_needed: 1,
+      project_story: 'A completely grassroots, free community theater performance under fairy lights in an Arts District courtyard. We need enthusiastic neighborhood audience members to cheer on our local actors!',
+      what_you_will_do_json: JSON.stringify([
+        'Grab a folding chair or picnic blanket spot under string lights',
+        'Laugh, gasp, and cheer with the neighborhood crowd',
+        'Participate in the opening warm-up call & response',
+        'Stick around after for hot apple cider and meet the cast',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How site-specific DIY theater transforms everyday urban spaces',
+        'How audience presence and reaction elevates live acting',
+      ]),
+      perks_json: JSON.stringify(['Complimentary Cider & Popcorn', 'Printed Playbill Souvenir', 'Backstage Tour']),
+      what_to_bring: 'Warm sweater or light blanket for outdoor evening seating.',
+      lat: 34.0350,
+      lng: -118.2320,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_backstage_07',
+      creator_id: 'acc_creator_chloe',
+      creator_name: 'Chloe Vance',
+      creator_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Stage Coordinator',
+      title: 'Backstage Hand & Costume Helper for Community Play',
+      category: 'stage_theater',
+      category_label: 'Stage, Theater & Performance',
+      activity_type: 'volunteer_help',
+      activity_badge: 'Backstage Helper 🎪',
+      address: 'Silver Lake Community Stage',
+      neighborhood: 'Silver Lake',
+      distance_miles: 0.4,
+      walk_minutes: 8,
+      time_range: '5:30 PM – 8:30 PM',
+      date_label: 'Friday',
+      spots_total: 3,
+      spots_joined: 1,
+      no_experience_needed: 1,
+      project_story: 'Our stage crew needs an extra pair of friendly hands to help coordinate quick costume changes behind the curtain, organize prop tables, and signal lighting cues.',
+      what_you_will_do_json: JSON.stringify([
+        'Help actors change vintage hats, coats, and glasses between scenes',
+        'Keep prop table tidy and hand flashlight props to actors entering stage right',
+        'Experience the thrill of live backstage theater production',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How stage managers call cues and coordinate running crew',
+        'Organization systems for theater props and costume tracking',
+      ]),
+      perks_json: JSON.stringify(['Playbill Credit: Stage Assistant', 'Cast Pizza Party', 'Free Tickets for Friends']),
+      what_to_bring: 'All black or dark clothes and comfortable shoes.',
+      lat: 34.0810,
+      lng: -118.2650,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'art_gallery_08',
+      creator_id: 'acc_creator_nora',
+      creator_name: 'Nora Diaz',
+      creator_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      creator_role: 'Local Printmaker',
+      title: 'Art Print Showcase & Creative Meetup (Come Mingle!)',
+      category: 'creative_events',
+      category_label: 'Creative Events & Art Showups',
+      activity_type: 'crowd_support',
+      activity_badge: 'Art Meetup 🎨',
+      address: '830 E 3rd St (Loft Gallery)',
+      neighborhood: 'Arts District',
+      distance_miles: 0.6,
+      walk_minutes: 12,
+      time_range: '6:30 PM – 9:00 PM',
+      date_label: 'Saturday Evening',
+      spots_total: 30,
+      spots_joined: 18,
+      no_experience_needed: 1,
+      project_story: 'Showcasing handmade linocut and risograph art prints by 5 Eastside LA illustrators. We invite curious locals and beginner artists to come wander the gallery, chat with creators, and take inspiring photos!',
+      what_you_will_do_json: JSON.stringify([
+        'Explore vibrant risograph art prints on display',
+        'Watch a live 15-minute screen-printing demonstration',
+        'Snap stories or reels to help spotlight local neighborhood artists',
+        'Mingle and share creative ideas with fellow art enthusiasts',
+      ]),
+      what_you_will_learn_json: JSON.stringify([
+        'How multi-layer risograph and screen printing works',
+        'How local artists self-publish art books and zines',
+      ]),
+      perks_json: JSON.stringify(['Free Hand-Printed Postcard', 'Sparkling Water & Local Pretzels', 'Printmaking Zine']),
+      what_to_bring: 'Just your curiosity and a camera or phone if you like taking photos.',
+      lat: 34.0450,
+      lng: -118.2370,
+      created_at: new Date().toISOString(),
+    },
+  ];
+
+  const stmt = handle.prepare(`
+    INSERT INTO art_opportunities (
+      id, creator_id, creator_name, creator_avatar, creator_role, title,
+      category, category_label, activity_type, activity_badge, address, neighborhood,
+      distance_miles, walk_minutes, time_range, date_label, spots_total, spots_joined,
+      no_experience_needed, project_story, what_you_will_do_json, what_you_will_learn_json,
+      perks_json, what_to_bring, lat, lng, created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const o of opportunities) {
+    stmt.run(
+      o.id, o.creator_id, o.creator_name, o.creator_avatar, o.creator_role, o.title,
+      o.category, o.category_label, o.activity_type, o.activity_badge, o.address, o.neighborhood,
+      o.distance_miles, o.walk_minutes, o.time_range, o.date_label, o.spots_total, o.spots_joined,
+      o.no_experience_needed, o.project_story, o.what_you_will_do_json, o.what_you_will_learn_json,
+      o.perks_json, o.what_to_bring, o.lat, o.lng, o.created_at
+    );
+  }
+
+  // Pre-join one for the default user
+  handle.prepare(`
+    INSERT INTO art_collaborations (id, opportunity_id, account_id, status, created_at)
+    VALUES (?, ?, ?, ?, ?)
+  `).run('collab_01', 'art_cam_01', mainAccountId, 'joined', new Date().toISOString());
+}
+
+function seedLocalGigsAndCommunity(handle: DatabaseSync, mainAccountId: string): void {
+  handle.exec('DELETE FROM local_gigs');
+  handle.exec('DELETE FROM gig_applications');
+  handle.exec('DELETE FROM wallet_items');
+  handle.exec('DELETE FROM peer_chats');
+  handle.exec('DELETE FROM chat_messages');
+
+  const gigs = [
+    {
+      id: 'gig_film_extra_01',
+      poster_id: 'acc_poster_leo',
+      poster_name: 'Leo Alvarez',
+      poster_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 4.9,
+      poster_gigs_count: 8,
+      title: 'Background Extras for Indie Comedy Scene',
+      category: 'film_extra',
+      category_label: 'Film & Video Extra',
+      pay_cents: 4500, // $45
+      duration_hours: 3.0,
+      address: '1520 Sunset Blvd (Diner Set)',
+      neighborhood: 'Silver Lake',
+      distance_miles: 0.2,
+      walk_minutes: 5,
+      starts_at: 'Today, 2:30 PM',
+      time_range: '2:30 PM – 5:30 PM',
+      spots_total: 8,
+      spots_filled: 5,
+      no_experience_needed: 1,
+      urgent: 1,
+      description: 'We are filming a cozy brunch restaurant conversation scene for a short festival comedy. Need everyday people to sit at background tables, eat diner fries, and look natural. No lines, zero stress!',
+      tasks_json: JSON.stringify([
+        'Sit at background diner booth with another extra',
+        'Pretend to converse naturally without speaking loudly',
+        'React to lead character dropping coffee cup',
+        'Have fun & enjoy free snacks and iced coffee',
+      ]),
+      what_to_wear: 'Casual daytime clothes (avoid solid green or loud brand logos). Warm autumn colors look great on camera!',
+      lat: 34.0782,
+      lng: -118.2606,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'gig_music_crowd_02',
+      poster_id: 'acc_poster_dj',
+      poster_name: 'Luna Perez (Indie Records)',
+      poster_avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 5.0,
+      poster_gigs_count: 14,
+      title: 'Concert Crowd Cheerers for Album Launch Party',
+      category: 'music_crowd',
+      category_label: 'Concert & Music Video Crowd',
+      pay_cents: 3500, // $35
+      duration_hours: 2.5,
+      address: '1822 W Sunset Blvd (Echo Hall)',
+      neighborhood: 'Echo Park',
+      distance_miles: 0.4,
+      walk_minutes: 8,
+      starts_at: 'Tonight, 7:00 PM',
+      time_range: '7:00 PM – 9:30 PM',
+      spots_total: 20,
+      spots_filled: 14,
+      no_experience_needed: 1,
+      urgent: 0,
+      description: 'Local dream-pop band shooting live performance video. We need high-energy crowd members near the front stage to cheer, clap along, and make the venue feel packed and electric!',
+      tasks_json: JSON.stringify([
+        'Stand near stage and cheer when band takes stage',
+        'Clap along during the chorus of 3 songs',
+        'Keep good energy for 2 live song video takes',
+        'Enjoy free non-alcoholic refreshments & band merch pin',
+      ]),
+      what_to_wear: 'Dark casual, vintage jacket, band tees, or streetwear style. Comfy sneakers for standing.',
+      lat: 34.0772,
+      lng: -118.2580,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'gig_shop_promo_03',
+      poster_id: 'acc_poster_boba',
+      poster_name: 'Mochi Milk Bar (Elena)',
+      poster_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 4.8,
+      poster_gigs_count: 3,
+      title: 'Boba Café Grand Opening: Pack the Line & Snap Stories',
+      category: 'shop_promo',
+      category_label: 'Shop Opening & Local Posts',
+      pay_cents: 2500, // $25 + free drink
+      duration_hours: 1.5,
+      address: '2105 Glendale Blvd',
+      neighborhood: 'Silver Lake',
+      distance_miles: 0.3,
+      walk_minutes: 6,
+      starts_at: 'Today, 4:00 PM',
+      time_range: '4:00 PM – 5:30 PM',
+      spots_total: 15,
+      spots_filled: 9,
+      no_experience_needed: 1,
+      urgent: 0,
+      description: 'Grand opening day for our neighborhood boba café! We need friendly locals to hang out, keep the patio lively, take a couple of quick phone videos, and tag our shop on Instagram or TikTok.',
+      tasks_json: JSON.stringify([
+        'Order complimentary signature boba or matcha latte',
+        'Hang out on the sunny patio with other locals for 60-90 mins',
+        'Post 1 photo or quick 5-sec video to IG Stories or TikTok',
+        'Get paid $25 cash instantly upon check-out',
+      ]),
+      what_to_wear: 'Cute casual everyday outfit. Bright cheerful colors preferred!',
+      lat: 34.0845,
+      lng: -118.2612,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'gig_helper_04',
+      poster_id: 'acc_poster_marcus',
+      poster_name: 'Marcus Diallo',
+      poster_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 4.9,
+      poster_gigs_count: 22,
+      title: 'Music Video Cable & Light Stand Helper (No Skills Req)',
+      category: 'helper',
+      category_label: 'Gear & Production Helper',
+      pay_cents: 6000, // $60
+      duration_hours: 4.0,
+      address: '830 E 3rd St (Studio Loft)',
+      neighborhood: 'Arts District',
+      distance_miles: 0.7,
+      walk_minutes: 14,
+      starts_at: 'Tomorrow, 10:00 AM',
+      time_range: '10:00 AM – 2:00 PM',
+      spots_total: 3,
+      spots_filled: 1,
+      no_experience_needed: 1,
+      urgent: 1,
+      description: 'Assistant canceled last minute! Need an extra pair of hands to help carry folding chairs, wrap basic orange extension cords, and hand light stands to the gaffer. Super friendly crew, will teach you everything.',
+      tasks_json: JSON.stringify([
+        'Help unpack 3 equipment Pelican cases from van',
+        'Hold extension cords and tape them down with gaff tape',
+        'Pass bottled water to crew during camera takes',
+        'Great way to learn how real video productions run!',
+      ]),
+      what_to_wear: 'Close-toed sneakers or boots, comfortable jeans or cargo pants, and a dark t-shirt.',
+      lat: 34.0450,
+      lng: -118.2370,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'gig_event_crowd_05',
+      poster_id: 'acc_poster_maya',
+      poster_name: 'Maya Lin (Silver Gallery)',
+      poster_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 5.0,
+      poster_gigs_count: 6,
+      title: 'Art Gallery Opening Night: Friendly Mingler & Crowd',
+      category: 'event_crowd',
+      category_label: 'Event Crowd & Attendees',
+      pay_cents: 3000, // $30
+      duration_hours: 2.0,
+      address: '714 S Santa Fe Ave',
+      neighborhood: 'Arts District',
+      distance_miles: 0.5,
+      walk_minutes: 10,
+      starts_at: 'Tomorrow, 6:00 PM',
+      time_range: '6:00 PM – 8:00 PM',
+      spots_total: 12,
+      spots_filled: 6,
+      no_experience_needed: 1,
+      urgent: 0,
+      description: 'Contemporary photo exhibit opening. We want a bustling, vibrant room when reviewers and art collectors arrive. Just stroll around, view prints, chat casually, and enjoy complimentary sparkling water.',
+      tasks_json: JSON.stringify([
+        'Arrive at 5:50 PM for quick greeting and name badge',
+        'Mingle naturally in the main gallery room',
+        'Participate in artist Q&A applause at 7:00 PM',
+        'Take home complimentary exhibition art print poster',
+      ]),
+      what_to_wear: 'Smart casual or artsy attire (all black, blazer, or neat collared shirt).',
+      lat: 34.0350,
+      lng: -118.2320,
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'gig_film_extra_06',
+      poster_id: 'acc_poster_sam',
+      poster_name: 'Sammy Klein',
+      poster_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      poster_rating: 4.7,
+      poster_gigs_count: 5,
+      title: 'Park Jogger & Dog Walker Extra for Student Film',
+      category: 'film_extra',
+      category_label: 'Film & Video Extra',
+      pay_cents: 4000, // $40
+      duration_hours: 2.0,
+      address: 'Echo Park Lake (Boathouse Walk)',
+      neighborhood: 'Echo Park',
+      distance_miles: 0.3,
+      walk_minutes: 6,
+      starts_at: 'Saturday, 9:00 AM',
+      time_range: '9:00 AM – 11:00 AM',
+      spots_total: 6,
+      spots_filled: 3,
+      no_experience_needed: 1,
+      urgent: 0,
+      description: 'USC Cinema thesis film shooting an emotional dialogue bench scene. We need people walking along the perimeter path in the background to look like everyday park visitors.',
+      tasks_json: JSON.stringify([
+        'Stroll naturally along lake pathway on camera cue',
+        'Repeat walk during 4 camera angle takes',
+        'You can bring your dog if they are quiet and friendly!',
+        'Instant payment released right as we wrap at 11:00 AM',
+      ]),
+      what_to_wear: 'Running or walking gear, light workout jacket or casual weekend hoodie.',
+      lat: 34.0725,
+      lng: -118.2605,
+      created_at: new Date().toISOString(),
+    },
+  ];
+
+  const gigStmt = handle.prepare(`
+    INSERT INTO local_gigs (
+      id, poster_id, poster_name, poster_avatar, poster_rating, poster_gigs_count,
+      title, category, category_label, pay_cents, duration_hours, address, neighborhood,
+      distance_miles, walk_minutes, starts_at, time_range, spots_total, spots_filled,
+      no_experience_needed, urgent, description, tasks_json, what_to_wear, lat, lng, created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const g of gigs) {
+    gigStmt.run(
+      g.id, g.poster_id, g.poster_name, g.poster_avatar, g.poster_rating, g.poster_gigs_count,
+      g.title, g.category, g.category_label, g.pay_cents, g.duration_hours, g.address, g.neighborhood,
+      g.distance_miles, g.walk_minutes, g.starts_at, g.time_range, g.spots_total, g.spots_filled,
+      g.no_experience_needed, g.urgent, g.description, g.tasks_json, g.what_to_wear, g.lat, g.lng, g.created_at
+    );
+  }
+
+  // Pre-seed 1 applied gig for the user
+  handle.prepare(`
+    INSERT INTO gig_applications (id, gig_id, account_id, status, created_at)
+    VALUES (?, ?, ?, ?, ?)
+  `).run('app_01', 'gig_film_extra_01', mainAccountId, 'confirmed', new Date().toISOString());
+
+  // Seed Handshake Wallet for default user
+  const walletStmt = handle.prepare(`
+    INSERT INTO wallet_items (id, account_id, title, category, amount_cents, date_str, type, status, note, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const walletItems = [
+    {
+      id: 'w_01',
+      title: 'Background Extra — Sunset Diner Comedy',
+      category: 'Film Extra',
+      amount_cents: 4500, // $45.00
+      date_str: 'Today',
+      type: 'gig_payout',
+      status: 'held_escrow',
+      note: 'Held securely in Handshake Escrow • Releases immediately after check-out',
+    },
+    {
+      id: 'w_02',
+      title: 'Boba Café Launch — Patio Posts & Reels',
+      category: 'Shop Promo',
+      amount_cents: 2500, // $25.00
+      date_str: 'Yesterday',
+      type: 'gig_payout',
+      status: 'available',
+      note: 'Verified by Elena • Ready to cash out',
+    },
+    {
+      id: 'w_03',
+      title: 'Concert Crowd Cheerer — Echo Park Album Release',
+      category: 'Music Crowd',
+      amount_cents: 3500, // $35.00
+      date_str: '3 days ago',
+      type: 'gig_payout',
+      status: 'available',
+      note: 'Completed • 5.0 ★ Star Rating received',
+    },
+    {
+      id: 'w_04',
+      title: 'Gear Setup Helper — Warehouse Studio',
+      category: 'Helper',
+      amount_cents: 6000, // $60.00
+      date_str: 'Last week',
+      type: 'gig_payout',
+      status: 'available',
+      note: 'Tipped $5 extra for great attitude!',
+    },
+  ];
+
+  for (const w of walletItems) {
+    walletStmt.run(w.id, mainAccountId, w.title, w.category, w.amount_cents, w.date_str, w.type, w.status, w.note, new Date().toISOString());
+  }
+
+  // Seed Peer Chats & $5 Advice Calls
+  const chatStmt = handle.prepare(`
+    INSERT INTO peer_chats (
+      id, account_id, peer_id, peer_name, peer_avatar, peer_role,
+      last_message, last_message_time, unread_count, is_advice_call, advice_topic, advice_price_cents, created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const chats = [
+    {
+      id: 'chat_01',
+      peer_id: 'acc_poster_leo',
+      peer_name: 'Leo Alvarez',
+      peer_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      peer_role: 'Indie Film Director',
+      last_message: 'See you at 2:30 PM! The diner entrance is right behind the vintage blue sign.',
+      last_message_time: '12m ago',
+      unread_count: 1,
+      is_advice_call: 0,
+      advice_topic: null,
+      advice_price_cents: null,
+    },
+    {
+      id: 'chat_advice_marcus',
+      peer_id: 'acc_poster_marcus',
+      peer_name: 'Marcus Diallo',
+      peer_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      peer_role: 'Lighting Tech / DP',
+      last_message: 'Always wear non-reflective clothes and bring a portable phone charger. You will do great!',
+      last_message_time: '2h ago',
+      unread_count: 0,
+      is_advice_call: 1,
+      advice_topic: '$5 Quick Tip: First Day on Film Set Etiquette',
+      advice_price_cents: 500,
+    },
+    {
+      id: 'chat_02',
+      peer_id: 'acc_poster_boba',
+      peer_name: 'Elena @ Mochi Milk Bar',
+      peer_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      peer_role: 'Café Owner',
+      last_message: 'Your video story looked awesome, thank you so much! Payment is sent.',
+      last_message_time: 'Yesterday',
+      unread_count: 0,
+      is_advice_call: 0,
+      advice_topic: null,
+      advice_price_cents: null,
+    },
+  ];
+
+  for (const c of chats) {
+    chatStmt.run(
+      c.id, mainAccountId, c.peer_id, c.peer_name, c.peer_avatar, c.peer_role,
+      c.last_message, c.last_message_time, c.unread_count, c.is_advice_call, c.advice_topic, c.advice_price_cents,
+      new Date().toISOString()
+    );
+  }
+
+  // Seed sample messages for chat_advice_marcus
+  const msgStmt = handle.prepare(`
+    INSERT INTO chat_messages (id, chat_id, sender_id, sender_name, text, timestamp, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  msgStmt.run(
+    'm_01', 'chat_advice_marcus', mainAccountId, 'You',
+    'Hey Marcus! I just booked my first extra gig today. Any tips so I don\'t make any rookie mistakes?',
+    '2:15 PM', new Date().toISOString()
+  );
+  msgStmt.run(
+    'm_02', 'chat_advice_marcus', 'acc_poster_marcus', 'Marcus Diallo',
+    'Congrats! Three quick golden rules: 1. Keep phone on silent always. 2. Never look directly into the camera lens unless told. 3. Wear comfortable shoes and bring a water bottle. Have fun with it!',
+    '2:18 PM', new Date().toISOString()
+  );
+  msgStmt.run(
+    'm_03', 'chat_advice_marcus', 'acc_poster_marcus', 'Marcus Diallo',
+    'Always wear non-reflective clothes and bring a portable phone charger. You will do great!',
+    '2:20 PM', new Date().toISOString()
+  );
 }
 
 /* ------------------------------------------------------------------ */

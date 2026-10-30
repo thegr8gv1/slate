@@ -18,8 +18,9 @@ export interface MapMarker {
   id: string;
   lat: number;
   lng: number;
-  kind: 'talent' | 'crew' | 'event' | 'origin' | 'gear' | 'beacon';
+  kind: 'talent' | 'crew' | 'event' | 'origin' | 'gear' | 'beacon' | 'gig';
   label?: string;
+  pinColor?: string;
   selected?: boolean;
   onPress?: () => void;
 }
@@ -52,6 +53,7 @@ const MARKER_STYLE: Record<MapMarker['kind'], { fill: string; glyph: 'person' | 
   gear: { fill: color.warning, glyph: 'camera' },
   origin: { fill: color.success, glyph: 'dot' },
   beacon: { fill: color.accent, glyph: 'bolt' },
+  gig: { fill: color.accent, glyph: 'star' },
 };
 
 export function GeoMap({
