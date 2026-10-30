@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: slate-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: apps/api
+    buildCommand: npm install && npx tsx src/db/seed.ts
+    startCommand: npx tsx src/server.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: HOST
+        value: 0.0.0.0
