@@ -13,7 +13,9 @@ apps/api/data/
 .tmp/
 *.log
 .env
-.env.*.local
+.env.*
+*.env
+*.env.txt
 
 # Generated native projects — see apps/slate/.gitignore
 /apps/slate/ios
